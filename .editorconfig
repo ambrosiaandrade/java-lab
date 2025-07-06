@@ -1,0 +1,42 @@
+# EditorConfig é incrível 🛠
+# Coloque este arquivo na raiz do projeto: java-lab/.editorconfig
+
+# Top-level configuration
+root = true
+
+# Padrões gerais
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+# Arquivos Markdown (README, cheatsheets etc.)
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+
+# Arquivos Java
+[*.java]
+indent_size = 4
+max_line_length = 120
+insert_final_newline = true
+
+# Arquivos XML (pom.xml, configs)
+[*.xml]
+indent_size = 2
+
+# Arquivos JSON
+[*.json]
+indent_size = 2
+
+# Arquivos YAML
+[*.yml]
+indent_size = 2
+
+# Scripts shell ou bash
+[*.sh]
+indent_style = space
+indent_size = 4
