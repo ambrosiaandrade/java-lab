@@ -13,19 +13,19 @@ public class ConfigLanguage {
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream(CONFIG_FILE)) {
             properties.load(input);
-            String profile = properties.getProperty("app.profile", "pt").toLowerCase();
+            String profile = properties.getProperty("app.profile", "en").toLowerCase();
             switch (profile) {
-                case "en":
-                    locale = Locale.forLanguageTag("en-US");
-                    break;
                 case "pt":
-                default:
                     locale = Locale.forLanguageTag("pt-BR");
+                    break;
+                case "en":
+                default:
+                    locale = Locale.forLanguageTag("en-US");
                     break;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            locale = Locale.forLanguageTag("pt-BR");
+            locale = Locale.forLanguageTag("en-US");
             System.out.println("Failed to load configuration file. Defaulting to: " + locale);
         }
     }

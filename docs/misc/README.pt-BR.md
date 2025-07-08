@@ -1,10 +1,10 @@
-Versão	Funcionalidades
-Java 8	Lambdas, Streams, Optional, java.time, default methods
-Java 9-10	Modules, inferência com var
-Java 11	String, Files, HttpClient
-Java 14-17	Records, Pattern Matching, Switch Expression
-Java 21+	Virtual Threads, SequencedCollection, Structured Concurrency
-
+| Versão     | Funcionalidades                                              |
+| ---------- | ------------------------------------------------------------ |
+| Java 8     | Lambdas, Streams, Optional, java.time, default methods       |
+| Java 9-10  | Modules, inferência com var                                  |
+| Java 11    | String, Files, HttpClient                                    |
+| Java 14-17 | Records, Pattern Matching, Switch Expression                 |
+| Java 21+   | Virtual Threads, SequencedCollection, Structured Concurrency |
 
 ## Pattern Matching em Java
 
@@ -176,11 +176,11 @@ public non-sealed class Truck implements Vehicle {
 
 ### Para que serve Reflection?
 
-* Instanciar objetos sem conhecer suas classes em tempo de compilação.
-* Acessar e modificar atributos privados de objetos.
-* Invocar métodos dinamicamente.
-* Ferramentas de frameworks (ex: frameworks de injeção de dependência, ORM, bibliotecas de testes) usam Reflection para funcionar.
-* Criar bibliotecas genéricas que manipulam objetos sem precisar de dependências diretas.
+- Instanciar objetos sem conhecer suas classes em tempo de compilação.
+- Acessar e modificar atributos privados de objetos.
+- Invocar métodos dinamicamente.
+- Ferramentas de frameworks (ex: frameworks de injeção de dependência, ORM, bibliotecas de testes) usam Reflection para funcionar.
+- Criar bibliotecas genéricas que manipulam objetos sem precisar de dependências diretas.
 
 ---
 
@@ -224,17 +224,170 @@ field.set(objeto, novoValor);
 
 ### Cuidados ao usar Reflection
 
-* Pode quebrar encapsulamento, acessando membros privados.
-* Performance é mais lenta do que chamadas normais.
-* Pode causar erros difíceis de depurar (ex: `NoSuchMethodException`, `IllegalAccessException`).
-* Uso excessivo pode tornar código menos legível.
+- Pode quebrar encapsulamento, acessando membros privados.
+- Performance é mais lenta do que chamadas normais.
+- Pode causar erros difíceis de depurar (ex: `NoSuchMethodException`, `IllegalAccessException`).
+- Uso excessivo pode tornar código menos legível.
 
 ---
 
 ### Quando usar Reflection?
 
-* Frameworks e bibliotecas dinâmicas.
-* Ferramentas de teste e depuração.
-* Serialização/deserialização genérica.
-* Quando é necessário um comportamento dinâmico baseado em tipos não conhecidos em tempo de compilação.
+- Frameworks e bibliotecas dinâmicas.
+- Ferramentas de teste e depuração.
+- Serialização/deserialização genérica.
+- Quando é necessário um comportamento dinâmico baseado em tipos não conhecidos em tempo de compilação.
 
+## `Supplier<T>`
+
+Entender o **`Supplier`** em Java é mais simples do que parece\! Pense nele como uma **fábrica de um único produto** que você só ativa quando precisa.
+
+Em termos técnicos, `Supplier<T>` é uma interface funcional que faz parte do pacote `java.util.function`. Ela possui apenas um método abstrato:
+
+```java
+T get();
+```
+
+Este método `get()` **não recebe nenhum argumento e retorna um valor do tipo `T`**.
+
+---
+
+### O que significa "fábrica de um único produto"?
+
+Imagine que você tem uma receita para fazer um bolo, mas só vai fazer o bolo se realmente for necessário. O `Supplier` é como essa **receita**.
+
+- **A "receita" (`Supplier`)**: Define como obter o bolo (o valor do tipo `T`).
+- **O "bolo" (`T`)**: É o valor que será produzido quando você "executar a receita".
+
+Você só executa a receita (chama o método `get()`) quando realmente precisa do bolo.
+
+---
+
+### Quando e por que usar um `Supplier`?
+
+O `Supplier` é super útil em cenários onde você quer **adiar a criação ou o cálculo de um valor** até que ele seja realmente necessário. Isso é conhecido como **avaliação preguiçosa (lazy evaluation)**.
+
+Vamos ver alguns exemplos práticos:
+
+#### 1\. Valores Padrão em `Optional.orElseGet()`
+
+Este é um dos usos mais comuns, e é onde o `Supplier` brilha em conjunto com `Optional`.
+
+No seu exemplo anterior, você viu `orElseGet()`:
+
+```java
+public String getUserNameById(String id) {
+    String userName = findUserInDatabase(id);
+    Optional<String> optionalUserName = Optional.ofNullable(userName);
+
+    // Usando orElseGet com um Supplier (lambda expression)
+    return optionalUserName.orElseGet(() -> "Usuário desconhecido");
+}
+```
+
+Aqui, `() -> "Usuário desconhecido"` é um `Supplier<String>`.
+
+- Se `optionalUserName` **contiver** um valor (o usuário for encontrado), o `Supplier` **nunca será invocado**, e a String "Usuário desconhecido" **nunca será criada**. Isso economiza recursos.
+- Se `optionalUserName` **estiver vazio** (o usuário não for encontrado), aí sim o `Supplier` é invocado, e ele **fornece** a String "Usuário desconhecido".
+
+Compare isso com `orElse("Usuário desconhecido")`:
+
+```java
+// Usando orElse - a String "Usuário desconhecido" é criada SEMPRE, mesmo que não seja usada
+return optionalUserName.orElse("Usuário desconhecido");
+```
+
+Com `orElse()`, o valor padrão (`"Usuário desconhecido"`) é criado **sempre**, independentemente de o `Optional` ter um valor ou não. Para Strings simples, isso não é um problema, mas imagine se o valor padrão fosse o resultado de uma operação cara (como uma consulta a um banco de dados ou um cálculo complexo). O `orElseGet()` evita essa criação desnecessária, usando o `Supplier`.
+
+#### 2\. Log condicional ou operações caras
+
+Imagine que você só quer gerar uma mensagem de log muito complexa se o nível de log estiver ativado:
+
+```java
+import java.util.function.Supplier;
+
+public class LoggerExample {
+
+    public void logIfDebugEnabled(boolean debugEnabled) {
+        if (debugEnabled) {
+            // Se o debug estiver ativado, só então a mensagem complexa é gerada
+            System.out.println(getComplexLogMessage());
+        } else {
+            // A mensagem complexa nunca é gerada se o debug estiver desativado
+            System.out.println("Debug não ativado. Nenhuma mensagem complexa gerada.");
+        }
+    }
+
+    // Método que simula uma operação cara para gerar a mensagem
+    private String getComplexLogMessage() {
+        System.out.println("Gerando mensagem de log complexa...");
+        // Simula um cálculo ou busca de dados demorada
+        try {
+            Thread.sleep(1000); // Demora 1 segundo
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return "Mensagem de log detalhada: Dados carregados com sucesso em " + System.currentTimeMillis();
+    }
+
+    public static void main(String[] args) {
+        LoggerExample logger = new LoggerExample();
+
+        System.out.println("--- Cenário 1: Debug DESATIVADO ---");
+        logger.logIfDebugEnabled(false); // Mensagem complexa NÃO é gerada
+
+        System.out.println("\n--- Cenário 2: Debug ATIVADO ---");
+        logger.logIfDebugEnabled(true);  // Mensagem complexa É gerada
+    }
+}
+```
+
+Se você passasse o resultado de `getComplexLogMessage()` diretamente para o método de log, ele seria executado **sempre**. Com um `Supplier`, você passaria a **lógica** de como obter a mensagem, e essa lógica só seria executada se a condição `debugEnabled` fosse verdadeira.
+
+---
+
+### Em resumo:
+
+- **O que é?** Uma interface funcional com o método `get()` que retorna um valor do tipo `T`.
+- **O que faz?** Fornece um valor (cria um objeto, executa um cálculo, etc.).
+- **Quando usar?** Quando você quer **adiar a criação ou o cálculo de um valor** até o momento em que ele é realmente necessário (avaliação preguiçosa).
+
+Pense no `Supplier` como uma "caixa" que contém a instrução de como obter um valor, mas que só entrega esse valor quando você a "abre" (chamando `get()`). Isso otimiza seu código, evitando que operações desnecessariamente custosas sejam executadas.
+
+## `Consumer<T>`
+
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
+
+public class ConsumerStreamExample {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+
+        // Usando forEach com um Consumer para imprimir cada nome
+        names.stream().forEach(name -> System.out.println("Nome: " + name));
+
+        // Outro Consumer para adicionar um prefixo e imprimir
+        Consumer<String> printWithPrefix = name -> System.out.println("Olá, " + name + "!");
+        names.stream().forEach(printWithPrefix);
+
+        // Você pode encadear Consumers (não é tão comum, mas é possível)
+        Consumer<String> logAndPrint = name -> {
+            System.out.println("Processando: " + name);
+            System.out.println("Exibindo: " + name.toUpperCase());
+        };
+        names.stream().forEach(logAndPrint);
+    }
+}
+```
+
+**Em resumo:**
+
+- **O que é?** Uma interface funcional com o método void `accept(T t)` que recebe um valor do tipo T e não retorna nada.
+
+- **O que faz?** Realiza uma ação ou efeito colateral com o valor fornecido.
+
+- **Quando usar?** Quando você quer executar uma operação em um valor (ou em cada valor de uma coleção/Stream) sem esperar um retorno, especialmente em contextos onde o valor pode estar ausente (`Optional.ifPresent()`) ou para processamento em pipelines de Stream.
+
+O `Consumer` é o oposto do `Supplier` nesse sentido: um fornece, o outro consome/processa. Ambos são pilares da programação funcional em Java, permitindo que você passe comportamentos como argumentos de forma concisa e eficiente.
