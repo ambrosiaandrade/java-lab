@@ -49,15 +49,4 @@ public class LabCollectionsToDo {
     public static void exercise11() {
     }
 
-    public static void exercise12() {
-    }
-
-    public static void exercise13() {
-    }
-
-    public static void exercise14() {
-    }
-
-    public static void exercise15() {
-    }
 }

@@ -1,7 +1,6 @@
 package collections;
 
 import java.util.*;
-import java.util.function.Function;
 
 import config.CustomPrint;
 import config.MessageProvider;
@@ -10,7 +9,6 @@ public class LabCollectionsDone {
     static {
         MessageProvider.setModuleName("collections");
         CustomPrint.greeting();
-        Collections.synchronizedList(null)
     }
 
     public static void main(String[] args) {
@@ -37,7 +35,7 @@ public class LabCollectionsDone {
         exercise10();
         CustomPrint.colored("exercise11");
         exercise11();
-        Comparator
+
     }
 
     public static void exercise1() {
