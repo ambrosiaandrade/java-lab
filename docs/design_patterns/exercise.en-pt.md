@@ -1,4 +1,4 @@
-# 🧪 Exercises
+# 🧪 Exercises of Design Pattern
 
 ## Singleton
 
@@ -368,11 +368,11 @@
 
 </details>
 
-<!-- -->
+<!-- details style -->
 
 <style>
 details {
-  border: 1px solid #aaa;
+  border: 1px solid none;
   border-radius: 4px;
   padding: 0.5em 0.5em 0;
 }
@@ -381,8 +381,8 @@ summary {
   font-weight: bold;
   margin: -0.5em -0.5em 0;
   padding: 0.5em;
-  background-color: lightgray;
-  color: black;
+  color:rgb(36, 52, 52);
+  background-color: #97EFE9;
 }
 
 details[open] {
