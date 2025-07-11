@@ -1,5 +1,24 @@
 package config;
 
+/**
+ * `CustomPrint` é uma classe utilitária estática projetada para aprimorar a saída no console
+ * (log) em aplicações Java. Ela oferece métodos para exibir mensagens formatadas
+ * e coloridas, tornando o log mais legível e informativo.
+ *
+ * Utiliza códigos ANSI para cores no terminal, o que pode não ser totalmente
+ * compatível com todos os ambientes de console sem suporte a ANSI.
+ *
+ * **Funcionalidades Principais:**
+ * - `greeting()`: Exibe uma mensagem de boas-vindas formatada com o nome do módulo.
+ * - `of(String message)`: Imprime uma mensagem padrão do módulo, buscando seu conteúdo
+ * em `MessageProvider`.
+ * - `colored(String message)`: Imprime uma mensagem do módulo com cores vibrantes
+ * para maior destaque.
+ * - `error(String message)`: Exibe mensagens de erro em destaque (vermelho).
+ *
+ * Esta classe centraliza a lógica de formatação de saída, promovendo a consistência
+ * visual e facilitando a manutenção dos logs da aplicação.
+ */
 public class CustomPrint {
 
     final static String RESET = "\u001B[0m";
