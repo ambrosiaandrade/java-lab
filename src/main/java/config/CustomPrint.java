@@ -7,6 +7,7 @@ public class CustomPrint {
     final static String PINK = "\u001B[95m";
     final static String BLUE = "\u001B[34m";
     final static String YELLOW = "\u001B[33m";
+    final static String RED = "\u001B[31m";
 
     public static void greeting() {
         String label = String.format("[%s]", MessageProvider.getModuleName().toUpperCase());
@@ -38,6 +39,11 @@ public class CustomPrint {
                 BLUE, message, RESET,
                 YELLOW, MessageProvider.get(message), RESET);
 
+        System.out.println(text);
+    }
+
+    public static void error(String message) {
+        String text = String.format("%s[ERROR] %s%s", RED, message, RESET);
         System.out.println(text);
     }
 
