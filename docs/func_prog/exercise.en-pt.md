@@ -17,3 +17,5 @@
 | 13  | Use `Stream` with `filter` and `collect` to get numbers greater than 10 from a list.                | Use `Stream` com `filter` e `collect` para obter números maiores que 10 em uma lista.               |
 | 14  | Use `reduce()` to concatenate a list of strings into a single string separated by hyphens.          | Use `reduce()` para concatenar uma lista de strings em uma única string separada por hífens.        |
 | 15  | Create a `Map<String, Integer>` and use `forEach()` with lambda to print formatted key-value pairs. | Crie um `Map<String, Integer>` e use `forEach()` com lambda para imprimir chave e valor formatados. |
+
+OBS: **Currying** é uma técnica de transformação de funções onde uma função que normalmente aceitaria múltiplos argumentos é transformada em uma sequência de funções, cada uma aceitando um único argumento.

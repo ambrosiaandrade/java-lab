@@ -92,14 +92,15 @@ Em Java (a partir do Java 8), a POO e a PF não são mutuamente exclusivas. Voc�
 
 ## Interfaces Funcionais
 
-| Interface           | Método Único          | Descrição                           |
-| ------------------- | --------------------- | ----------------------------------- |
-| `Function<T,R>`     | `R apply(T t)`        | Transforma um valor em outro.       |
-| `Predicate<T>`      | `boolean test(T t)`   | Avaliação booleana.                 |
-| `Consumer<T>`       | `void accept(T t)`    | Executa ação com efeito colateral.  |
-| `Supplier<T>`       | `T get()`             | Fornece valor sem entrada.          |
-| `UnaryOperator<T>`  | `T apply(T t)`        | Como Function, entrada = saída.     |
-| `BinaryOperator<T>` | `T apply(T t1, T t2)` | Combina dois valores do mesmo tipo. |
+| Interface             | Método Único          | Descrição                                |
+| --------------------- | --------------------- | ---------------------------------------- |
+| `Function<T,R>`       | `R apply(T t)`        | Transforma um valor em outro.            |
+| `Predicate<T>`        | `boolean test(T t)`   | Avaliação booleana.                      |
+| `Consumer<T>`         | `void accept(T t)`    | Executa ação com efeito colateral.       |
+| `Supplier<T>`         | `T get()`             | Fornece valor sem entrada.               |
+| `UnaryOperator<T>`    | `T apply(T t)`        | Como Function, entrada = saída.          |
+| `BinaryOperator<T>`   | `T apply(T t1, T t2)` | Combina dois valores do mesmo tipo.      |
+| `BiFunction<T, U, R>` | `R apply(T t, U u)`   | Aceita dois tipos e retorna um terceiro. |
 
 ---
 
