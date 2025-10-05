@@ -36,6 +36,8 @@ app.profile=en   # Para inglês
 
 ---
 
+todo socket
+
 ## 📚 Conteúdo e estrutura
 
 | Status | Tema                       | README                                                                                            | Cheat Sheet                               | Exercícios                                    |
